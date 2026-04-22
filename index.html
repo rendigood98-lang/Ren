@@ -1,0 +1,215 @@
+<!DOCTYPE html><html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Typing Kereta Sakura 🌸</title><style>
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(180deg, #0a0a1f, #1a0033);
+  color: white;
+  overflow: hidden;
+}
+
+/* INTRO */
+#intro {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  animation: fadeOut 2s ease 2s forwards;
+}
+
+#intro h1 {
+  font-size: 55px;
+  font-weight: bold;
+  color: black;
+  text-shadow: 0 0 20px red, 0 0 50px crimson;
+  animation: zoomIn 1s ease;
+}
+
+@keyframes zoomIn {
+  from { transform: scale(0.2); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+@keyframes fadeOut {
+  to { opacity: 0; visibility: hidden; }
+}
+
+/* Sakura */
+.sakura {
+  position: fixed;
+  top: -10px;
+  width: 15px;
+  height: 15px;
+  background: ghostwhite;
+  border-radius: 50%;
+  opacity: 0.7;
+  animation: fall linear infinite;
+}
+
+@keyframes fall {
+  to {
+    transform: translateY(110vh) rotate(360deg);
+  }
+}
+
+/* Header */
+.header {
+  text-align: center;
+  padding: 20px;
+  font-size: 26px;
+  font-weight: bold;
+  background: linear-gradient(90deg, #ff0001, #000000);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.love {
+  text-align: center;
+  font-size: 13px;
+  margin-top: -10px;
+  opacity: 0.7;
+}
+
+/* Card */
+.card {
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(15px);
+  margin: 20px;
+  padding: 20px;
+  border-radius: 20px;
+}
+
+/* Input */
+input, textarea, select {
+  width: 95%;
+  padding: 12px;
+  border-radius: 12px;
+  border: none;
+  margin: 10px 0;
+  background: rgba(0,0,0,0.4);
+  color: white;
+}
+
+/* Button */
+button {
+  background: linear-gradient(45deg, #ff0000, #000);
+  border: none;
+  padding: 12px;
+  border-radius: 12px;
+  color: white;
+  margin: 5px;
+  cursor: pointer;
+}
+
+/* Output */
+#output {
+  background: rgba(0,0,0,0.6);
+  padding: 15px;
+  border-radius: 15px;
+  margin-top: 10px;
+  min-height: 60px;
+}
+</style></head><body><!-- INTRO --><div id="intro">
+  <h1>Renz</h1>Tools⚡<h1
+</div><div class="header">Developer Rén ⚡</div>
+<div class="love">Dibuat karena Rendi malas ngetik🗿🙏🏻</div><div class="card">
+  <textarea id="input" placeholder="Tulis chat kamu..."></textarea>
+  <input type="text" id="nomor" placeholder="No tujuan (628xxx)">  <select id="level">
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+  </select>  <br>
+  <button onclick="generate()">✨ Generate</button>
+  <button onclick="copyText()">📋 Copy</button>
+  <button onclick="sendToWA()">OTW⚡</button>
+  <button onclick="sendToWAB()">COMING SOON</button>
+</div><div class="card">
+  <div id="output"></div>
+</div><script>
+// Sakura
+for(let i=0;i<30;i++){
+  let sakura=document.createElement("div");
+  sakura.className="sakura";
+  sakura.style.left=Math.random()*100+"vw";
+  sakura.style.animationDuration=(5+Math.random()*5)+"s";
+  sakura.style.opacity=Math.random();
+  document.body.appendChild(sakura);
+}
+
+function rand(min,max){
+  return Math.floor(Math.random()*(max-min+1))+min;
+}
+
+function getRange(level){
+  switch(level){
+    case "1": return [2,3];
+    case "2": return [3,5];
+    case "3": return [4,6];
+    case "4": return [5,8];
+  }
+}
+
+function generate(){
+  let text=document.getElementById("input").value;
+  let level=document.getElementById("level").value;
+  let result="";
+
+  let [min,max]=getRange(level);
+
+  for(let char of text){
+    if(/[a-zA-Z]/.test(char)){
+      result+=char.repeat(rand(min,max));
+    } else {
+      result+=char;
+    }
+  }
+
+  document.getElementById("output").textContent=result;
+}
+
+function copyText(){
+  let text=document.getElementById("output").textContent;
+  navigator.clipboard.writeText(text);
+  alert("Copied 🔥");
+}
+
+// WA BIASA
+function sendToWA(){
+  let text=document.getElementById("output").textContent;
+  let nomor=document.getElementById("nomor").value;
+
+  if(!text) return alert("GENERATE DULU WOI");
+  if(!nomor) return alert("NOMORNYA MANA");
+
+  let safeText=text.slice(0,2000);
+
+  let url="https://wa.me/"+nomor+"?text="+encodeURIComponent(safeText);
+  window.open(url,"_blank");
+}
+
+// WA BUSINESS
+function sendToWAB(){
+  let text=document.getElementById("output").textContent;
+  let nomor=document.getElementById("nomor").value;
+
+  if(!text) return alert("Generate BEGO 😭");
+  if(!nomor) return alert("Masukkan nomor 😡");
+
+  let safeText=text.slice(0,2000);
+
+  let intent="intent://send?phone="+nomor+"&text="+encodeURIComponent(safeText)+
+             "#Intent;scheme=whatsapp;package=com.whatsapp.w4b;end";
+
+  window.location.href=intent;
+}
+</script></body>
+</html>
